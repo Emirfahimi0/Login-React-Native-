@@ -1,5 +1,6 @@
 import {
     SafeAreaView,
+    StyleSheet,
     Text,
     Image,
     TouchableOpacity,
@@ -7,7 +8,7 @@ import {
     View,
     Dimensions,
   } from "react-native";
-  import React, { useEffect,useState } from "react";
+  import React, { useEffect,useRef,useState } from "react";
   import Spacing from "../constants/Spacing";
   import FontSize from "../constants/FontSize";
   import Colors from "../constants/Colors";
@@ -15,6 +16,7 @@ import {
   import { Ionicons } from "@expo/vector-icons";
   import { NativeStackScreenProps } from "@react-navigation/native-stack";
   import { RootStackParamList } from "../types";
+  import AppTextInput from "../components/AppTextInput";
 import { StatusBar } from "expo-status-bar";
   const { height } = Dimensions.get("window");
   
@@ -23,7 +25,13 @@ import { StatusBar } from "expo-status-bar";
   const HomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     
 
-    const [value, setValue] = useState<any>([])
+    const [fullName, setFullName] = useState([])
+    const [value, setValue] = useState([])
+    const [Age, setAge] = useState([])
+    const [Gender, setGender] = useState([])
+    const [Bio, setBio] = useState([])
+    const [Number, setPhone] = useState([])
+    const [email, setEmail] = useState([])
    
     
 
@@ -39,8 +47,13 @@ import { StatusBar } from "expo-status-bar";
           });
           const data: any = await res.json();
           setValue(data);
-          console.log(value);
-          
+          setFullName(data[0].first_Name.concat(data[0].last_Name));
+          setAge(data[0].Age);
+          setGender(data[0].Gender);
+          setPhone(data[0].number);
+          setBio(data[0].Bio);
+          setEmail(data[0].email);
+          console.log(data);
          }
         getData();
           },[]);
@@ -70,9 +83,9 @@ import { StatusBar } from "expo-status-bar";
         {justifyContent: 'center', alignItems: 'center'}
         }>
              <Image
-            source={
-             require('../assets/images/User.png')
-            }
+            source={{
+              uri: 'https://images.unsplash.com/photo-1589656966895-2f33e7653819?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+            }}
             style={{
               width: 100,
               height: 100,
@@ -87,22 +100,15 @@ import { StatusBar } from "expo-status-bar";
        
         </View>
         <View style={{marginTop: 60}}>
-
-        {
-        value.map((user: { first_Name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; last_Name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; })=>( 
-                       <Text
-                       style={{
-                         fontFamily: Font["poppins-semiBold"],
-                         fontSize: FontSize.large,
-                         textAlign: 'center',
-                         color:Colors.text,
-                       }}>
-                        {user.first_Name} {user.last_Name}
-                     </Text>
-                ))} 
-       
-        {
-        value.map((user: { Bio: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; })=>( 
+          <Text
+            style={{
+              fontFamily: Font["poppins-semiBold"],
+              fontSize: FontSize.large,
+              textAlign: 'center',
+              color:Colors.text,
+            }}>
+           {fullName}
+          </Text>
           <Text 
           
           style={{ 
@@ -110,10 +116,8 @@ import { StatusBar } from "expo-status-bar";
           fontSize: FontSize.small,
           textAlign: 'center',
           color: Colors.darkText}}>
-            {user.Bio}
+            {Bio}
           </Text>
-                ))} 
-
           <View style={{marginLeft: 80}}>
           <View
               style={{
@@ -133,16 +137,11 @@ import { StatusBar } from "expo-status-bar";
                 size={Spacing * 2} />
               </View>
               <View style={{justifyContent: 'center', marginLeft: 10, flex: 1}}>
-              {
-              value.map((user: { Gender: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; })=>( 
-
                 <Text  
                 style={{ 
             fontFamily: Font["poppins-regular"],
             fontSize: FontSize.small,
-          color: Colors.text}}>{user.Gender}</Text>
-          ))} 
-
+          color: Colors.text}}>{Gender}</Text>
               </View>
             </View>
             <View
@@ -150,7 +149,7 @@ import { StatusBar } from "expo-status-bar";
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginTop: 5,
+                marginTop: 20,
               }}>
               <View
                 style={{
@@ -163,15 +162,11 @@ import { StatusBar } from "expo-status-bar";
                 size={Spacing * 2} />
               </View>
               <View style={{justifyContent: 'center', marginLeft: 10, flex: 1}}>
-              {
-              value.map((user: { number: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; })=>( 
-
                 <Text  
                 style={{ 
             fontFamily: Font["poppins-regular"],
             fontSize: FontSize.small,
-          color: Colors.text}}>{user.number}</Text>
-          ))} 
+          color: Colors.text}}>{Number}</Text>
               </View>
             </View>
        
@@ -192,15 +187,11 @@ import { StatusBar } from "expo-status-bar";
                 size={Spacing * 2} />
               </View>
               <View style={{justifyContent: 'center', marginLeft: 10, flex: 1}}>
-              {
-              value.map((user: { Age: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; })=>( 
-
-                <Text  
+                <Text        
                 style={{ 
             fontFamily: Font["poppins-regular"],
             fontSize: FontSize.small,
-          color: Colors.text}}>{user.Age}</Text>
-          ))} 
+            color: Colors.text}}>{Age}</Text>
               </View>
             </View>
             <View
@@ -220,15 +211,13 @@ import { StatusBar } from "expo-status-bar";
                 size={Spacing * 2} />
               </View>
               <View style={{justifyContent: 'center', marginLeft: 10, flex: 1}}>
-              {
-              value.map((user: { email: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; })=>( 
-
-                <Text  
+                <Text 
                 style={{ 
-            fontFamily: Font["poppins-regular"],
-            fontSize: FontSize.small,
-          color: Colors.text}}>{user.email}</Text>
-          ))} 
+                  fontFamily: Font["poppins-regular"],
+                  fontSize: FontSize.small,
+                  color: Colors.text}}>
+                  {email}
+                </Text>
               </View>
               
             </View>
@@ -257,9 +246,10 @@ import { StatusBar } from "expo-status-bar";
             </TouchableOpacity>
           </View>
         </View>
-    
+      
+   
 
-    
+
         </View>
        
         <View
