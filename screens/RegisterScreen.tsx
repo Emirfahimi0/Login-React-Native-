@@ -27,6 +27,8 @@ export const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) =>
 
 
 
+//When using React's useState Hook in TypeScript, 
+//the method usually infers the implicit type for the returned state from the provided argument automatically
 
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');

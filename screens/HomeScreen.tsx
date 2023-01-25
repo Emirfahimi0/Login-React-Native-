@@ -26,7 +26,10 @@ import { StatusBar } from "expo-status-bar";
     const [value, setValue] = useState<any>([])
    
     
-
+// UseEffect is a hook that helps us manage state in a function-based components.
+// The method usually infers the implicit type for the returned state from the provided argument automatically
+// Effects create resources that need to be cleaned up before the component leaves the screen
+// Using an async function makes the callback function return a Promise instead of a cleanup function.
       useEffect(() => {
         const getData = async() => {
           const res: any = await fetch("http://10.0.2.2:80/SignIn/User.php", {
